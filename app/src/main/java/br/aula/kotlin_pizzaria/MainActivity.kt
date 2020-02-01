@@ -18,55 +18,56 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // O action bar serve para dar uma ação ao menu (voltar, por exemplo)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val pizzarias = PizzariaRepository(this).findAll()
         val adapter
                 = ArrayAdapter(this, android.R.layout.simple_list_item_1, pizzarias)
 
-        var listaPizzarias = lista // lista corresponde ao id que está no layout no componente ListView
+        var listaPizzaria = lista // lista corresponde ao id que está no layout no componente ListView
         lista.adapter = adapter
-
     }
-
-                override fun onCreateOptionsMenu(menu: Menu): Boolean {
-                    val inflater = menuInflater
-                    // a classe R puxa o layout
-                    inflater.inflate(R.menu.menu, menu)
-                    return true
-                }
-                // Comportamento do Menu: recebe o id do menu e realiza uma ação
-                override fun onOptionsItemSelected(item: MenuItem): Boolean {
-                    when (item.itemId) {
-                        R.id.novo -> {
-                            val intent = Intent(this, NewPizza::class.java)
-                            startActivity(intent)
-                            return false
-                        }
-
-                        R.id.mapa -> {
-                            Toast.makeText(this, "Mapa", Toast.LENGTH_LONG).show()
-                            return false
-                        }
-
-                        else -> return super.onOptionsItemSelected(item)
-                    }
-                }
-
-            override fun onResume() {
-                super.onResume()
-                val pizzarias = PizzariaRepository(this).findAll()
-                val adapter= ArrayAdapter(this, android.R.layout.simple_list_item_1, pizzarias)
-                lista?.adapter = adapter
-                adapter.notifyDataSetChanged()
-
-                lista.setOnItemClickListener { _, _, position, id ->
-                    val intent = Intent(this, PizzariaRepository::class.java)
-                    intent.putExtra("pizzaria", pizzarias?.get(position))
-                    startActivity(intent)
-                }
+    // Trabalhando com menus na aplicação
+    // Criar um método override para poder customiza-lo. Irá controlar o listener.
+    // O método OnCreate controla o ciclo de vida da aplicação.
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        // a classe R puxa o layout
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
+    // Comportamento do Menu: recebe o id do menu e realiza uma ação
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.novo -> {
+                val intent = Intent(this, NewPizza::class.java)
+                startActivity(intent)
+                return false
             }
 
 
+            R.id.mapa -> {
+                Toast.makeText(this, "Mapa", Toast.LENGTH_LONG).show()
+                return false
+            }
+
+            else -> return super.onOptionsItemSelected(item)
+        }
+
+    }
+    override fun onResume() {
+        super.onResume()
+        val pizzarias = PizzariaRepository(this).findAll()
+        val adapter= ArrayAdapter(this, android.R.layout.simple_list_item_1, pizzarias)
+        lista?.adapter = adapter
+        adapter.notifyDataSetChanged()
+
+        lista.setOnItemClickListener { _, _, position, id ->
+            val intent = Intent(this, NewPizza::class.java)
+            intent.putExtra("pizzaria", pizzarias?.get(position))
+            startActivity(intent)
+        }
+    }
 
 }

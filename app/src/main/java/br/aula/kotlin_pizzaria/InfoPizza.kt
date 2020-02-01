@@ -22,10 +22,14 @@ class InfoPizza : AppCompatActivity() {
         setContentView(R.layout.activity_info_pizza)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val pizzarias = PizzariaRepository(this).findAll()
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, pizzarias)
-        lista.adapter = adapter
 
+
+        val pizzarias = PizzariaRepository(this).findAll()
+        val adapter
+                = ArrayAdapter(this, android.R.layout.simple_list_item_1, pizzarias)
+
+        var listaPizzaria = lista // lista corresponde ao id que está no layout no componente ListView
+        lista.adapter = adapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -39,7 +43,7 @@ class InfoPizza : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.novo -> {
-                val intent = Intent(this, NewPizza::class.java)
+                    val intent = Intent(this, NewPizza::class.java)
                 startActivity(intent)
                 return false
             }

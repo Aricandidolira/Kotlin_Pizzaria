@@ -24,8 +24,10 @@ class NewPizza : AppCompatActivity()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        if (intent?.getSerializableExtra("pizzaria") != null) {
+        if (intent?.getSerializableExtra("pizzaria") != null)
+        {
             pizzaria = intent?.getSerializableExtra("pizzaria") as Pizzaria
+
             txtNome?.setText(pizzaria?.nomeEstabelecimento)
             txtEndereco?.setText(pizzaria?.endereco)
             txtTelefone?.setText(pizzaria?.telefone?.toString())
@@ -52,6 +54,8 @@ class NewPizza : AppCompatActivity()
 
             finish()
         }
+
+
     }
 
 
